@@ -65,28 +65,25 @@ for file in path_files:
         # print(shingles[index])
         print("-----------------------------------------------------------------------------------------------------------")
 concat_array = np.concatenate(shgl)
-unique = np.unique(concat_array)
-# print(shgl)
+shingle_unique = np.unique(concat_array)
+# print(shingle_unique)
 print("==================================")
 # print(np.unique(concat_array))
         # print('Reading data took %.2f sec.' % (time.time() - t0))
-# matrix = []
-# for i in range(len(unique)):
-#     a = []
-#     for j in range(len(docs)):
-#         a.append(concat_array[j])
-#     matrix.append(a)
+mt = []
+answer = [[0]* len(shingle_unique)] 
+# for i in path_files:
+#     with open(i, 'r') as f:
+#         content = f.read()
+#         for j in shingle_unique:
+#             if j in content:
+                # answer[i][j] = 
+                # ct.append(os.path.basename(i))
+            # else:
+                # mt.append('0' + " " + os.path.basename(i))
 
-# for i in range(len(unique)):
-#     for j in range(len(docs)):
-#         print(matrix[i][j], ' ')
-
-#     print()
-
-
-print(np.array([docs,
-                unique]))
-
+# matrix = np.array(answer).reshape(len(shingle_unique),len(docs))
+# print(matrix)
 # =============================================================================
 #               Create Matrix of Docs and Shingles
 # =============================================================================
