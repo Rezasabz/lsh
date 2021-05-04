@@ -6,6 +6,9 @@ import multiprocessing
 import os
 import numpy as np
 import tableprint
+import numpy as np
+from itertools import permutations
+import random
 # from rich.table import Column, Table
 # from rich.console import Console
 
@@ -15,7 +18,7 @@ import tableprint
 # --------------------------------------------------
 #  path files
 # -----------------------------------------------
-path_files = glob.glob('athletics/*.txt')
+path_files = glob.glob('*.txt')
 
 bad_chars = [';', ':', '!', "*", ",", "\n", ".", "?", '"',"@","$","%","^","&","(",")","=","+","_","{","}","[","]","<",">","-","'"]
 # docments = []
@@ -68,7 +71,7 @@ for file in path_files:
                 os.mkdir(tmp)
             with open("temp_folder"+"/"+filename,'w') as newFile:
                 newFile.write(content)
-        print("-----------------------------------------------------------------------------------------------------------")
+        # print("-----------------------------------------------------------------------------------------------------------")
         for i in range(len(content) - k + 1):
             shingles[index].append("")
             for j in range(i, i + k):
@@ -98,8 +101,25 @@ for i in glob.glob(tmp + "/" + "*.txt"):
                 answer[index] = 1
             index += 1
     mt.append(answer)
-print(mt)
 
+# print(np.transpose(mt))
+
+def creat_permutations(arr_name,limit):
+    range_arr_len = []
+    perm_list = []
+    arr_len = len(arr_name[0])
+    for i in range(1,arr_len+1):
+        range_arr_len.append(i)
+    perm = permutations(range_arr_len)
+    for i in perm:
+        perm_list.append(i)
+    return np.transpose(random.sample(perm_list,limit))
+
+for i in range(len(mt)):
+    j = 0
+    while(np.transpose(mt[i][j])!= 1):
+        j += 1
+    print(j+1, end = " ")
 
 
 
@@ -136,3 +156,51 @@ print(mt)
 # tableprint.table(np.transpose(mt), docs, align='center')
 
 # exit(0)
+
+
+# s = []
+# for i in range(len(np.transpose(arr[0]))):
+#     s.append(i+1)
+
+import numpy as np
+from itertools import permutations
+import random
+
+arr = [[1,0,1,1,0,1,1,0,1],[0,0,1,0,0,1,1,0,0],[0,0,0,1,0,1,1,0,1]]
+
+
+
+def creat_permutations(arr_name,limit):
+    range_arr_len = []
+    perm_list = []
+    arr_len = len(arr_name[0])
+    for i in range(1,arr_len+1):
+        range_arr_len.append(i)
+    perm = permutations(range_arr_len)
+    for i in perm:
+        perm_list.append(i)
+    return random.sample(perm_list,limit)
+
+
+# print(creat_perm(arr))
+p = creat_permutations(arr,3)
+print(p)
+for i in range(len(p)):
+    for pr in p[i]:
+        # zip_perm = zip(p[i],arr[i])
+        # sort_perm = sorted(zip_perm)
+        # sort_list = [el for _, el in sort_perm]
+        print(pr[0])
+        # print(p[i])
+    
+    # print()
+    
+    # print(sort_list)
+
+        # print(sorted(b))
+        # print(per , end = " ")
+    # j = 0
+    # while(np.transpose(arr[i][j])!= 1):
+    #     j += 1
+    # print(j+1, end = " ")
+
