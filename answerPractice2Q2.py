@@ -86,7 +86,7 @@ shingle_unique = np.unique(concat_array)
 # print(shingle_unique)
 
 
-print("==================================")
+# print("==================================")
 # print(np.unique(concat_array))
 # print('Reading data took %.2f sec.' % (time.time() - t0))
 mt = []
@@ -102,71 +102,7 @@ for i in glob.glob(tmp + "/" + "*.txt"):
             index += 1
     mt.append(answer)
 
-# print(np.transpose(mt))
-
-def creat_permutations(arr_name,limit):
-    range_arr_len = []
-    perm_list = []
-    arr_len = len(arr_name[0])
-    for i in range(1,arr_len+1):
-        range_arr_len.append(i)
-    perm = permutations(range_arr_len)
-    for i in perm:
-        perm_list.append(i)
-    return np.transpose(random.sample(perm_list,limit))
-
-for i in range(len(mt)):
-    j = 0
-    while(np.transpose(mt[i][j])!= 1):
-        j += 1
-    print(j+1, end = " ")
-
-
-
-# table = Table(show_header=True, header_style="bold magenta")
-# for i in docs:
-#     table.add_column(i)
-# for i in range(len(shingle_unique)):
-#     table.add_row(str(np.transpose(mt)[i][0]), str(np.transpose(mt)[i][1]))
-
-
-# console.print(table)
-
-
-# print("         ", end='')
-# for i in shingle_unique:
-#     print(i + " | ", end='')
-# print()
-# index = 0
-# for arr in mt:
-#     print(path_files[index], end='')
-#     index += 1
-#     for i in arr:
-#         print("   " + str(i) + "  ", end='')
-#     print()
-
-
-# print(shingle_unique)
-# =============================================================================
-#               Create Matrix of Docs and Shingles
-# =============================================================================
-# --------------------------------------------------
-#  Table of availability of shingles in documents
-# -----------------------------------------------
-# tableprint.table(np.transpose(mt), docs, align='center')
-
-# exit(0)
-
-
-# s = []
-# for i in range(len(np.transpose(arr[0]))):
-#     s.append(i+1)
-
-import numpy as np
-from itertools import permutations
-import random
-
-arr = [[1,0,1,1,0,1,1,0,1],[0,0,1,0,0,1,1,0,0],[0,0,0,1,0,1,1,0,1]]
+print(mt)
 
 
 
@@ -181,26 +117,64 @@ def creat_permutations(arr_name,limit):
         perm_list.append(i)
     return random.sample(perm_list,limit)
 
+def create_signatures(array):
+    p = creat_permutations(array,3)
+    signatures_list = []
+    for i in range(len(p)):
+        sort_list_shingles = []
+        for j in array:
+            zip_perm = zip(p[i],j)
+            sort_perm = sorted(zip_perm)
+            sort_list = [el for _, el in sort_perm]
+            sort_list_shingles.append(sort_list)
+        signatures = []
+        for l in range(len(sort_list_shingles)):
+            k = 0
+            while(sort_list_shingles[l][k] != 1):
+                k += 1
+            signatures.append(k+1)
+        signatures_list.append(signatures)
+    return signatures_list
 
-# print(creat_perm(arr))
-p = creat_permutations(arr,3)
-print(p)
-for i in range(len(p)):
-    for pr in p[i]:
-        # zip_perm = zip(p[i],arr[i])
-        # sort_perm = sorted(zip_perm)
-        # sort_list = [el for _, el in sort_perm]
-        print(pr[0])
-        # print(p[i])
-    
-    # print()
-    
-    # print(sort_list)
 
-        # print(sorted(b))
-        # print(per , end = " ")
-    # j = 0
-    # while(np.transpose(arr[i][j])!= 1):
-    #     j += 1
-    # print(j+1, end = " ")
+# print(create_signatures(mt))
 
+# table = Table(show_header=True, header_style="bold magenta")
+# for i in docs:
+#     table.add_column(i)
+# for i in range(len(shingle_unique)):
+#     table.add_row(str(np.transpose(mt)[i][0]), str(np.transpose(mt)[i][1]))
+# console.print(table)
+
+# print(shingle_unique)
+# =============================================================================
+#               Create Matrix of Docs and Shingles
+# =============================================================================
+# --------------------------------------------------
+#  Table of availability of shingles in documents
+# -----------------------------------------------
+# tableprint.table(np.transpose(mt), docs, align='center')
+
+# exit(0)
+
+# def create_signatures(array):
+    # p = creat_permutations(array,3)
+    # signatures_list = []
+    # for i in range(3):
+    #     p = np.random.permutation(len(array[0]+1))
+    #     print(p)
+    #     sort_list_shingles = []
+    #     for j in array:
+    #         zip_perm = zip(p,j)
+    #         sort_perm = sorted(zip_perm)
+    #         sort_list = [el for _, el in sort_perm]
+    #         sort_list_shingles.append(sort_list)
+    #         print(sort_list)
+    #     signatures = []
+    #     for l in range(len(sort_list_shingles)):
+    #         k = 0
+    #         while(sort_list_shingles[l][k] != 1):
+    #             k += 1
+    #         signatures.append(k+1)
+    #     signatures_list.append(signatures)
+    # return signatures_list
