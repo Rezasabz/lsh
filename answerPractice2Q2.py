@@ -178,3 +178,28 @@ def create_signatures(array):
     #         signatures.append(k+1)
     #     signatures_list.append(signatures)
     # return signatures_list
+    
+    
+    
+    def create_signatures(array):
+    # p = creat_permutations(array,3)
+    signatures_list = []
+    for i in range(3):
+        p = np.random.permutation(len(array[0])+1)
+        del_zero = np.delete(p, np.where(p == 0))
+        print(del_zero)
+        sort_list_shingles = []
+        for j in array:
+            zip_perm = zip(del_zero,j)
+            sort_perm = sorted(zip_perm)
+            sort_list = [el for _, el in sort_perm]
+            sort_list_shingles.append(sort_list)
+            print(sort_list)
+        signatures = []
+        for l in range(len(sort_list_shingles)):
+            k = 0
+            while(sort_list_shingles[l][k] != 1):
+                k += 1
+            signatures.append(k+1)
+        signatures_list.append(signatures)
+    return signatures_list
