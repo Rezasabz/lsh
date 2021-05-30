@@ -5,7 +5,7 @@ import re
 import multiprocessing
 import os
 import numpy as np
-import tableprint
+# import tableprint
 import numpy as np
 from itertools import permutations
 import random
@@ -20,7 +20,8 @@ import random
 # -----------------------------------------------
 path_files = glob.glob('*.txt')
 
-bad_chars = [';', ':', '!', "*", ",", "\n", ".", "?", '"',"@","$","%","^","&","(",")","=","+","_","{","}","[","]","<",">","-","'"]
+bad_chars = [';', ':', '!', "*", ",", "\n", ".", "?", '"', "@", "$", "%",
+             "^", "&", "(", ")", "=", "+", "_", "{", "}", "[", "]", "<", ">", "-", "'"]
 # docments = []
 
 # preprocess on eache file
@@ -66,10 +67,10 @@ for file in path_files:
         filename = os.path.basename(file)
         docs.append(filename)
         for i in bad_chars:
-            content = content.replace(i,'')
+            content = content.replace(i, '')
             if not os.path.exists(tmp):
                 os.mkdir(tmp)
-            with open("temp_folder"+"/"+filename,'w') as newFile:
+            with open("temp_folder"+"/"+filename, 'w') as newFile:
                 newFile.write(content)
         # print("-----------------------------------------------------------------------------------------------------------")
         for i in range(len(content) - k + 1):
@@ -102,31 +103,24 @@ for i in glob.glob(tmp + "/" + "*.txt"):
             index += 1
     mt.append(answer)
 
-print(mt)
+# --------------------------------------------------
+#  create signatures
+# -----------------------------------------------
 
-
-
-def creat_permutations(arr_name,limit):
-    range_arr_len = []
-    perm_list = []
-    arr_len = len(arr_name[0])
-    for i in range(1,arr_len+1):
-        range_arr_len.append(i)
-    perm = permutations(range_arr_len)
-    for i in perm:
-        perm_list.append(i)
-    return random.sample(perm_list,limit)
 
 def create_signatures(array):
-    p = creat_permutations(array,3)
     signatures_list = []
-    for i in range(len(p)):
+    for i in range(3):
+        p = np.random.permutation(len(array[0])+1)
+        del_zero = np.delete(p, np.where(p == 0))
+        # print(del_zero)
         sort_list_shingles = []
         for j in array:
-            zip_perm = zip(p[i],j)
+            zip_perm = zip(del_zero, j)
             sort_perm = sorted(zip_perm)
             sort_list = [el for _, el in sort_perm]
             sort_list_shingles.append(sort_list)
+            # print(sort_list)
         signatures = []
         for l in range(len(sort_list_shingles)):
             k = 0
@@ -137,16 +131,7 @@ def create_signatures(array):
     return signatures_list
 
 
-# print(create_signatures(mt))
-
-# table = Table(show_header=True, header_style="bold magenta")
-# for i in docs:
-#     table.add_column(i)
-# for i in range(len(shingle_unique)):
-#     table.add_row(str(np.transpose(mt)[i][0]), str(np.transpose(mt)[i][1]))
-# console.print(table)
-
-# print(shingle_unique)
+print(create_signatures(mt))
 # =============================================================================
 #               Create Matrix of Docs and Shingles
 # =============================================================================
@@ -156,50 +141,3 @@ def create_signatures(array):
 # tableprint.table(np.transpose(mt), docs, align='center')
 
 # exit(0)
-
-# def create_signatures(array):
-    # p = creat_permutations(array,3)
-    # signatures_list = []
-    # for i in range(3):
-    #     p = np.random.permutation(len(array[0]+1))
-    #     print(p)
-    #     sort_list_shingles = []
-    #     for j in array:
-    #         zip_perm = zip(p,j)
-    #         sort_perm = sorted(zip_perm)
-    #         sort_list = [el for _, el in sort_perm]
-    #         sort_list_shingles.append(sort_list)
-    #         print(sort_list)
-    #     signatures = []
-    #     for l in range(len(sort_list_shingles)):
-    #         k = 0
-    #         while(sort_list_shingles[l][k] != 1):
-    #             k += 1
-    #         signatures.append(k+1)
-    #     signatures_list.append(signatures)
-    # return signatures_list
-    
-    
-    
-    def create_signatures(array):
-    # p = creat_permutations(array,3)
-    signatures_list = []
-    for i in range(3):
-        p = np.random.permutation(len(array[0])+1)
-        del_zero = np.delete(p, np.where(p == 0))
-        print(del_zero)
-        sort_list_shingles = []
-        for j in array:
-            zip_perm = zip(del_zero,j)
-            sort_perm = sorted(zip_perm)
-            sort_list = [el for _, el in sort_perm]
-            sort_list_shingles.append(sort_list)
-            print(sort_list)
-        signatures = []
-        for l in range(len(sort_list_shingles)):
-            k = 0
-            while(sort_list_shingles[l][k] != 1):
-                k += 1
-            signatures.append(k+1)
-        signatures_list.append(signatures)
-    return signatures_list
